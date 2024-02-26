@@ -8,7 +8,7 @@ from datetime import date
 class BaseModel:
     def __init__(self, *args, **kwargs):
         if kwargs:
-            self.id = kwargs['id']
+            self.__dict__.update(kwargs)
             self.created_at = datetime.strptime(kwargs['created_at'],
                                                 '%Y-%m-%dT%H:%M:%S.%f')
             self.updated_at = datetime.strptime(kwargs['updated_at'],
