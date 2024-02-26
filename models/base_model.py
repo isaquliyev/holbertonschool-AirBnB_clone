@@ -12,7 +12,7 @@ class BaseModel:
         self.updated_at = datetime.now()
 
     def __str__(self):
-        name = "[{}] {} {}".format(BaseModel.__name__, self.id, self.__dict__)
+        name = "[{}] ({}) {}".format(BaseModel.__name__, self.id, self.__dict__)
         return name
 
     def save(self):
