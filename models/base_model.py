@@ -6,13 +6,22 @@ from datetime import date
 
 
 class BaseModel:
-    def __init__(self):
-        self.id = str(uuid4())
-        self.created_at = datetime.now()
-        self.updated_at = datetime.now()
+    def __init__(self, *args, **kwargs):
+        if kwargs:
+            self.id = kwargs['id']
+            self.created_at = datetime.strptime(kwargs['created_at'],
+                                                '%Y-%m-%dT%H:%M:%S.%f')
+            self.updated_at = datetime.strptime(kwargs['updated_at'],
+                                                '%Y-%m-%dT%H:%M:%S.%f')
+        else:
+            self.id = str(uuid4())
+            self.created_at = datetime.now()
+            self.updated_at = datetime.now()
 
     def __str__(self):
-        name = "[{}] ({}) {}".format(BaseModel.__name__, self.id, self.__dict__)
+        name = "[{}] ({}) {}".format(BaseModel.__name__,
+                                     self.id,
+                                     self.__dict__)
         return name
 
     def save(self):
