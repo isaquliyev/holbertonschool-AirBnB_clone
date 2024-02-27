@@ -20,8 +20,9 @@ class TestBaseModel(TestCase):
         self.assertEqual(result, self.b1.__str__())
 
     def test_save(self):
+        updated_at = self.b1.updated_at
         self.b1.save()
-        self.assertNotEqual(self.b1.created_at, self.b1.updated_at)
+        self.assertNotEqual(updated_at, self.b1.updated_at)
 
     def test_to_dict(self):
         new_dict = self.b1.to_dict()
