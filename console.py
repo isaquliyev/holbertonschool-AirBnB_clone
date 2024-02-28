@@ -32,6 +32,8 @@ class HBNBCommand(cmd.Cmd):
         if len(argv) == 0 and validator_key < 5:
             print("** class name missing **")
             return False
+        elif len(argv) == 0 and validator_key == 5:
+            print([str(obj) for obj in storage.all().values()])
         elif argv and argv[0] != "BaseModel":
             print("** class doesn't exist **")
             return False
