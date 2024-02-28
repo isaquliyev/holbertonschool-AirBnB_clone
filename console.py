@@ -50,6 +50,7 @@ class HBNBCommand(cmd.Cmd):
                     print(a)
                 elif validator_key == 3:
                     storage.all().pop(f"{argv[0]}.{argv[1]}")
+                    storage.save()
                 elif validator_key == 4:
                     print("** attribute name missing **")
             except Exception:
