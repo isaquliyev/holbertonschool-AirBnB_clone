@@ -21,7 +21,7 @@ class BaseModel:
             models.storage.new(self)
 
     def __str__(self):
-        name = "[{}] ({}) {}".format(BaseModel.__name__,
+        name = "[{}] ({}) {}".format(self.__class__.__name__,
                                      self.id,
                                      self.__dict__)
         return name
@@ -32,7 +32,7 @@ class BaseModel:
 
     def to_dict(self):
         new_dict = {}
-        new_dict['__class__'] = BaseModel.__name__
+        new_dict['__class__'] = self.__class__.__name__
         for key, value in self.__dict__.items():
             if type(value) is datetime:
                 new_dict[key] = self.__dict__[key].isoformat()
