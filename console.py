@@ -6,8 +6,9 @@
 
 import cmd
 from models import storage
+from models import class_list
 from models.base_model import BaseModel
-
+from models.user import User
 
 class HBNBCommand(cmd.Cmd):
     prompt = "(hbnb) "
@@ -34,11 +35,12 @@ class HBNBCommand(cmd.Cmd):
             return False
         elif len(argv) == 0 and validator_key == 5:
             print([str(obj) for obj in storage.all().values()])
-        elif argv and argv[0] != "BaseModel":
+        elif argv and argv[0] not in class_list:
             print("** class doesn't exist **")
             return False
-        elif argv and argv[0] == "BaseModel" and validator_key == 5:
-            print([str(obj) for obj in storage.all().values()])
+        elif argv and argv[0] in class_list and validator_key == 5:
+            print([str(obj) for obj in storage.all().values() if
+                   obj.__class__.__name__ == argv[0]])
         elif len(argv) == 1 and validator_key > 1 and validator_key < 5:
             print("** instance id missing **")
             return False
@@ -84,7 +86,7 @@ class HBNBCommand(cmd.Cmd):
 
     def do_create(self, argv):
         if self.isArgumentValid(argv, 1):
-            b1 = BaseModel()
+            b1 = eval(argv)()
             b1.save()
             print(b1.id)
 
