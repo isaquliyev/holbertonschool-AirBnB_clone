@@ -5,10 +5,11 @@
 """
 
 import cmd
+from models import storage
+from models.base_model import BaseModel
 
 
 class HBNBCommand(cmd.Cmd):
-
     prompt = "(hbnb) "
 
     def do_EOF(self, argv):
@@ -25,6 +26,76 @@ class HBNBCommand(cmd.Cmd):
 
     def emptyline(self):
         pass
+
+    def isArgumentValid(self, argv, validator_key):
+        argv = argv.split()
+        if len(argv) == 0 and validator_key < 5:
+            print("** class name missing **")
+            return False
+        elif argv and argv[0] != "BaseModel":
+            print("** class doesn't exist **")
+            return False
+        elif argv and argv[0] == "BaseModel" and validator_key == 5:
+            print([str(obj) for obj in storage.all().values()])
+        elif len(argv) == 1 and validator_key > 1 and validator_key < 5:
+            print("** instance id missing **")
+            return False
+        elif len(argv) == 2 and validator_key > 1:
+            try:
+                a = storage.all()[f"{argv[0]}.{argv[1]}"]
+
+                if validator_key == 2:
+                    print(a)
+                elif validator_key == 3:
+                    storage.all().pop(f"{argv[0]}.{argv[1]}")
+                elif validator_key == 4:
+                    print("** attribute name missing **")
+            except Exception:
+                print("** no instance found **")
+                return False
+
+        elif len(argv) == 3:
+            print("** value missing **")
+        elif len(argv) == 4:
+            key = f"{argv[0]}.{argv[1]}"
+            try:
+                instance = storage.all()[key]
+            except Exception:
+                print("** no instance found **")
+                return False
+            attribute_name = argv[2]
+            attribute_value = argv[3]
+
+            if attribute_value.isdigit():
+                setattr(instance, attribute_name, int(attribute_value))
+            else:
+                try:
+                    setattr(instance, attribute_name, float(attribute_value))
+                except Exception:
+                    attribute_value = attribute_value[1:-1]
+                    setattr(instance, attribute_name, str(attribute_value))
+
+            instance.save()
+
+        return True
+
+    def do_create(self, argv):
+        if self.isArgumentValid(argv, 1):
+            b1 = BaseModel()
+            b1.save()
+            print(b1.id)
+
+    def do_show(self, argv):
+        self.isArgumentValid(argv, 2)
+
+    def do_destroy(self, argv):
+        self.isArgumentValid(argv, 3)
+
+    def do_update(self, argv):
+        self.isArgumentValid(argv, 4)
+
+    def do_all(self, argv):
+        self.isArgumentValid(argv, 5)
 
 
 if __name__ == '__main__':
