@@ -1,10 +1,10 @@
 header {
     background-color: white;
+    background: url(../images/logo.png) no-repeat 20px;
     height: 70px;
     width: 100%;
     border-bottom: 1px solid;
     border-color: #CCCCCC;
     display: flex;
     align-items: center;
-    padding-left: 20px;
 }
