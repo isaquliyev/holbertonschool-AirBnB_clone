@@ -74,7 +74,11 @@
     margin-top: 0;
     padding: 6px 0;
     list-style-type: none;
-  }
+}
+
+.filters .amenities ul {
+    padding-top: 16px;
+}
   
 .filters .locations li, .filters .amenities li {
     margin: 0 auto 6px 3em;
